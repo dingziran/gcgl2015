@@ -1,0 +1,14 @@
+@(userForm:Form[User])
+
+@main("Welcome to Play") {
+
+    @helper.form(action=controllers.auth.routes.Login.login){
+        @helper.inputText(userForm("id"))
+        @helper.inputText(userForm("username"))
+        @helper.inputPassword(userForm("password"))
+        <div class="form-actions">
+            <button type="submit">Login</button>
+        </div>
+    }
+
+}
