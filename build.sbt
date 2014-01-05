@@ -8,4 +8,6 @@ libraryDependencies +=   "org.squeryl" %% "squeryl" % "0.9.5-6"
 
 libraryDependencies +=   jdbc
 
+libraryDependencies += "org.reactivemongo" %% "play2-reactivemongo" % "0.10.1"
+
 play.Project.playScalaSettings
