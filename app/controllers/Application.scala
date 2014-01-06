@@ -4,10 +4,18 @@ import play.api._
 import play.api.mvc._
 import play.api.data.{Forms, Form}
 import play.api.data.Forms._
-import com.mongodb.casbah.Imports._
-import play.api.libs.json.{Json, JsString}
+import play.api.libs.json.{JsValue, Json, JsString}
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+// Reactive Mongo imports
+import reactivemongo.api._
 
-object Application extends Controller {
+// Reactive Mongo plugin, including the JSON-specialized collection
+import play.modules.reactivemongo.MongoController
+import play.modules.reactivemongo.json.collection.JSONCollection
+
+object Application extends Controller with MongoController {
+
+  def collection: JSONCollection = db.collection[JSONCollection]("activities")
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
@@ -17,20 +25,10 @@ object Application extends Controller {
       Ok(views.html.activities())
   }
 
-  def createActivity=Action{ request =>
-    val mongoClient= MongoClient()
-    val db=mongoClient("gcgl")
-    db.collectionNames
-    val activities = db("activities")
-    val productJson = request.body
-   // productJson.asJson.getOrElse(JsNull).
-  val p = Json.obj(
-  "name"-> JsString("Dingziran")
-  )
+  def createActivity=Action.async(parse.json){ request =>
 
-
-
-    //val a = MongoDBObject(p)
-    Ok(p.toString())
+    val activityJson:JsValue = request.body
+    collection.insert(activityJson).map(lastError =>
+      Ok("Mongo LastError: %s".format(lastError)))
   }
 }
