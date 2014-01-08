@@ -7,13 +7,18 @@
  */
 
 function CreateActivityCtrl($scope,$http){
-    $scope.count=0;
     $scope.activity={};
     $scope.create=function(){
-        this.count=this.count+1;
-        $http.post("http://localhost:9000/activity",$scope.activity)
+        $http.post("/activity",$scope.activity)
             .success(function(data){
             $scope.message=data;
-        })
+                $http.get('/activity').success(function(data){
+                    $scope.activities=data;
+                });
+        });
     };
+    $scope.activities=[];
+    $http.get('/activity').success(function(data){
+        $scope.activities=data;
+    });
 }

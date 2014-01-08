@@ -17,9 +17,19 @@
                 <input type="text" ng-model="activity.name"class="form-control" id="name" placeholder="Enter activity name">
             </div>
             <button type="submit" class="btn btn-default" ng-click="create()">提交</button>
-            <h1>{{count}}</h1>
-            <h1>{{message}}</h1>
         </form>
+        <table class="table">
+            <tr>
+                <th>No.</th>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+            <tr ng-repeat="activity in activities">
+                <td>{{$index}}</td>
+                <td>{{activity._id.$oid}}</td>
+                <td>{{activity.name}}</td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>

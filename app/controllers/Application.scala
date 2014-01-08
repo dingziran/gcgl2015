@@ -1,11 +1,9 @@
 package controllers
 
-import play.api._
 import play.api.mvc._
-import play.api.data.{Forms, Form}
-import play.api.data.Forms._
-import play.api.libs.json.{JsValue, Json, JsString}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.libs.json._
+
 // Reactive Mongo imports
 import reactivemongo.api._
 
@@ -30,5 +28,14 @@ object Application extends Controller with MongoController {
     val activityJson:JsValue = request.body
     collection.insert(activityJson).map(lastError =>
       Ok("Mongo LastError: %s".format(lastError)))
+  }
+
+  def listActivities=Action.async{request =>
+    val query=Json.obj()
+    val activities=collection.find(query).cursor[JsObject].collect[List]()
+    activities.map{ result =>
+      Ok(Json.toJson(result))
+    }
+
   }
 }
