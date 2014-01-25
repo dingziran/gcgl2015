@@ -9,27 +9,42 @@
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")"/>
 </head>
 <body ng-controller="CreateActivityCtrl">
-    <div style="width: 768px;margin: 20px">
-        <h1>新建活动</h1>
-        <form role="form">
-            <div class="form-group">
-                <label for="exampleInputEmail1">活动名</label>
-                <input type="text" ng-model="activity.name"class="form-control" id="name" placeholder="Enter activity name">
-            </div>
-            <button type="submit" class="btn btn-default" ng-click="create()">提交</button>
-        </form>
-        <table class="table table-striped table-hover">
-            <tr>
-                <th>No.</th>
-                <th>Id</th>
-                <th>Name</th>
-            </tr>
-            <tr ng-repeat="activity in activities">
-                <td>{{$index}}</td>
-                <td>{{activity._id.$oid}}</td>
-                <td>{{activity.name}}</td>
-            </tr>
-        </table>
-    </div>
+    <table class="table">
+        <tr>
+            <td style="width: 768px;margin: 20px">
+                <div >
+                    <button type="button" class="btn btn-default" ng-click="showCreate()">新建活动</button>
+                    <table class="table table-striped table-hover">
+                        <tr>
+                            <th>No.</th>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th></th>
+                        </tr>
+                        <tr ng-repeat="activity in activities">
+                            <td>{{$index}}</td>
+                            <td>{{activity._id.$oid}}</td>
+                            <td>{{activity.name}}</td>
+                            <td>
+                                <button type="button" class="btn btn-danger" ng-click="delete(activity)">删除</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td ng-show="isCreated">
+                <h1>新建活动</h1>
+                <form role="form">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">活动名</label>
+                        <input type="text" ng-model="activity.name"class="form-control" id="name" placeholder="Enter activity name">
+                    </div>
+                    <button type="submit" class="btn btn-default" ng-click="create()">提交</button>
+                </form>
+            </td>
+        </tr>
+
+
+    </table>
 </body>
 </html>
